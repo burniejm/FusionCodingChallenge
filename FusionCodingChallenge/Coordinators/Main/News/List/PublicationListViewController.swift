@@ -1,5 +1,5 @@
 //
-//  NewsViewController.swift
+//  PublicationListViewController.swift
 //  FusionCodingChallenge
 //
 //  Created by John Macy on 1/21/23.
@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
 
-class NewsListViewController: UIViewController {
+class PublicationListViewController: UIViewController {
 
     private var viewModel: PublicationListViewModelProtocol!
     private var dateTimeService: DateTimeServiceProtocol!
@@ -63,8 +63,8 @@ class NewsListViewController: UIViewController {
         )
 
         self.tableView.register(
-            NewsTableViewCell.self,
-            forCellReuseIdentifier: NewsTableViewCell.reuseIdentifier
+            PublicationTableViewCell.self,
+            forCellReuseIdentifier: PublicationTableViewCell.reuseIdentifier
         )
 
         self.view.addSubview(self.tableView)
@@ -133,7 +133,7 @@ class NewsListViewController: UIViewController {
 
 }
 
-extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
+extension PublicationListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.publications.value.count
@@ -142,7 +142,7 @@ extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell: NewsTableViewCell = tableView.dequeue(
+        let cell: PublicationTableViewCell = tableView.dequeue(
             cellForRowAt: indexPath
         )
 
@@ -159,7 +159,7 @@ extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        self.viewModel.select(articleAtIndex: indexPath.row)
+        self.viewModel.select(itemAtIndex: indexPath.row)
 
     }
 
@@ -168,7 +168,7 @@ extension NewsListViewController: UITableViewDelegate, UITableViewDataSource {
         let totalCount = self.viewModel.publications.value.count
 
         if indexPath.row + self.viewModel.infiniteScrollThreshold > totalCount {
-            self.viewModel.fetchNextArticles()
+            self.viewModel.fetchNextItems()
         }
 
     }

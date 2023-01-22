@@ -1,5 +1,5 @@
 //
-//  NewsTableViewCell.swift
+//  PublicationTableViewCell.swift
 //  FusionCodingChallenge
 //
 //  Created by John Macy on 1/21/23.
@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class NewsTableViewCell: UITableViewCell {
+class PublicationTableViewCell: UITableViewCell {
 
     private var lblTitle: UILabel!
     private var lblDate: UILabel!
     private var imgView: UIImageView!
 
-    static let reuseIdentifier = "NewsTableViewCell"
+    static let reuseIdentifier = "PublicationTableViewCell"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 

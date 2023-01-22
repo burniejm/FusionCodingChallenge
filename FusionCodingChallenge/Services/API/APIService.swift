@@ -10,49 +10,61 @@ import Alamofire
 
 protocol APIServiceProtocol {
 
-    func getArticles(
+    func getPublications(
+        type: PublicationType,
         start: Int?,
         limit: Int?,
         completion: @escaping (Result<[Publication], Error>) -> Void
     )
 
-    func getArticle(
+    func getPublication(
+        type: PublicationType,
         id: Int,
-        completion: @escaping (Result<Publication, Error>) -> Void
-    )
-
-    func getBlogs(
-        start: Int?,
-        limit: Int?,
         completion: @escaping (Result<[Publication], Error>) -> Void
-    )
-
-    func getBlog(
-        id: Int,
-        completion: @escaping (Result<Publication, Error>) -> Void
-    )
-
-    func getReports(
-        start: Int?,
-        limit: Int?,
-        completion: @escaping (Result<[Publication], Error>) -> Void
-    )
-
-    func getReport(
-        id: Int,
-        completion: @escaping (Result<Publication, Error>) -> Void
     )
 
 }
 
-protocol Endpoint {
-    var baseURLString: String { get }
-    var path: String { get }
-}
+enum PublicationType {
 
-extension Endpoint {
-    var url: String {
-        return baseURLString + path
+    case articles
+    case blogs
+    case reports
+
+    private func path(id: Int? = nil) -> String {
+
+        switch self {
+
+        case .articles:
+
+            if let id {
+                return "articles/\(id)"
+            }
+
+            return "articles"
+
+        case .blogs:
+
+            if let id {
+                return "blogs/\(id)"
+            }
+
+            return "blogs"
+
+        case .reports:
+
+            if let id {
+                return "reports/\(id)"
+            }
+
+            return "reports"
+
+        }
+
+    }
+
+    func url(baseUrl: String, id: Int? = nil) -> String {
+        return baseUrl + path(id: id)
     }
 }
 
@@ -70,55 +82,16 @@ enum ArticlesParam: String {
     case contains = "_contains"
 }
 
-enum APIEndpoints: Endpoint {
+class APIService: APIServiceProtocol {
 
-    case articles(id: Int? = nil)
-    case blogs(id: Int? = nil)
-    case reports(id: Int? = nil)
-
-    var baseURLString: String {
+    private var baseURLString: String {
         "https://api.spaceflightnewsapi.net/v3/"
     }
 
-    var path: String {
-
-        switch self {
-
-        case .articles(let id):
-
-            if let id {
-                return "articles/\(id)"
-            }
-
-            return "articles"
-
-        case .blogs(let id):
-
-            if let id {
-                return "blogs/\(id)"
-            }
-
-            return "blogs"
-
-        case .reports(let id):
-
-            if let id {
-                return "reports/\(id)"
-            }
-
-            return "reports"
-
-        }
-
-    }
-
-}
-
-class APIService: APIServiceProtocol {
-
-    func getArticles(start: Int?,
-                     limit: Int?,
-                     completion: @escaping (Result<[Publication], Error>) -> Void) {
+    func getPublications(type: PublicationType,
+                         start: Int?,
+                         limit: Int?,
+                         completion: @escaping (Result<[Publication], Error>) -> Void) {
 
         let requestParams = translateParams(
             start: start,
@@ -126,7 +99,7 @@ class APIService: APIServiceProtocol {
         )
 
         AF.request(
-            APIEndpoints.articles().url,
+            type.url(baseUrl: self.baseURLString),
             parameters: requestParams
         )
         .validate()
@@ -144,116 +117,9 @@ class APIService: APIServiceProtocol {
 
     }
 
-    func getArticle(id: Int,
-                    completion: @escaping (Result<Publication, Error>) -> Void) {
-
-        AF.request(APIEndpoints.articles(id: id).url)
-            .validate()
-            .responseTwoDecodable(
-                of: Publication.self) { response in
-                    switch response {
-
-                    case .success(let items):
-                        completion(.success(items))
-
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
-
-    }
-
-    func getBlogs(start: Int?,
-                  limit: Int?,
-                  completion: @escaping (Result<[Publication], Error>) -> Void) {
-
-        let requestParams = translateParams(
-            start: start,
-            limit: limit
-        )
-
-        AF.request(
-            APIEndpoints.blogs().url,
-            parameters: requestParams
-        )
-        .validate()
-        .responseTwoDecodable(
-            of: [Publication].self) { response in
-                switch response {
-
-                case .success(let items):
-                    completion(.success(items))
-
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-
-    }
-
-    func getBlog(id: Int,
-                 completion: @escaping (Result<Publication, Error>) -> Void) {
-
-        AF.request(APIEndpoints.blogs(id: id).url)
-            .validate()
-            .responseTwoDecodable(
-                of: Publication.self) { response in
-                    switch response {
-
-                    case .success(let items):
-                        completion(.success(items))
-
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
-
-    }
-
-    func getReports(start: Int?,
-                    limit: Int?,
-                    completion: @escaping (Result<[Publication], Error>) -> Void) {
-
-        let requestParams = translateParams(
-            start: start,
-            limit: limit
-        )
-
-        AF.request(
-            APIEndpoints.reports().url,
-            parameters: requestParams
-        )
-        .validate()
-        .responseTwoDecodable(
-            of: [Publication].self) { response in
-                switch response {
-                    
-                case .success(let items):
-                    completion(.success(items))
-                    
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-
-    }
-
-    func getReport(id: Int,
-                   completion: @escaping (Result<Publication, Error>) -> Void) {
-
-        AF.request(APIEndpoints.reports(id: id).url)
-            .validate()
-            .responseTwoDecodable(
-                of: Publication.self) { response in
-                    switch response {
-
-                    case .success(let items):
-                        completion(.success(items))
-
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
-                }
+    func getPublication(type: PublicationType,
+                        id: Int,
+                        completion: @escaping (Result<[Publication], Error>) -> Void) {
 
     }
 

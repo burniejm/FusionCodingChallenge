@@ -23,12 +23,17 @@ class MainCoordinator: Coordinator {
         return UIStoryboard.main.instantiateInitialViewController() as? UINavigationController
     }()
 
-    private var newsVC: NewsListViewController {
+    private var newsVC: PublicationListViewController {
 
-        let vm = PublicationListViewModel(apiService: APIService())
-            .setup(delegate: self)
+        let vm = PublicationListViewModel(
+            apiService: APIService()
+        )
+        .setup(
+            type: .articles,
+            delegate: self
+        )
 
-        let vc = NewsListViewController().setup(
+        let vc = PublicationListViewController().setup(
             viewModel: vm,
             dateTimeService: DateTimeService()
         )

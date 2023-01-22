@@ -1,5 +1,5 @@
 //
-//  NewsViewModel.swift
+//  PublicationListViewModel.swift
 //  FusionCodingChallenge
 //
 //  Created by John Macy on 1/21/23.
@@ -23,20 +23,23 @@ protocol PublicationListViewModelProtocol {
     var isLoading: Observable<Bool> { get }
     var infiniteScrollThreshold: Int { get }
 
+    init(apiService: APIServiceProtocol)
+    func setup(type: PublicationType, delegate: PublicationListViewModelDelegate?) -> Self
     func refreshTriggered()
-    func fetchNextArticles()
-    func select(articleAtIndex: Int)
+    func fetchNextItems()
+    func select(itemAtIndex: Int)
 
 }
 
 class PublicationListViewModel: PublicationListViewModelProtocol {
 
-    static let articlesPerRequest = 20
+    static let itemsPerRequest = 20
     static let _infiniteScrollThreshold = 2
 
     private weak var delegate: PublicationListViewModelDelegate?
 
     private let apiService: APIServiceProtocol
+    private(set) var type: PublicationType = .articles
 
     private var currentPage = 1
 
@@ -63,15 +66,18 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
         Self._infiniteScrollThreshold
     }
 
-    init(apiService: APIServiceProtocol) {
+    required init(apiService: APIServiceProtocol) {
         self.apiService = apiService
     }
 
-    func setup(delegate: PublicationListViewModelDelegate) -> Self {
+    @discardableResult
+    func setup(type: PublicationType,
+               delegate: PublicationListViewModelDelegate?) -> Self {
 
+        self.type = type
         self.delegate = delegate
 
-        loadArticles()
+        loadData()
 
         return self
 
@@ -81,21 +87,21 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
         self._sortDesc.accept(sortDesc)
     }
 
-    func fetchNextArticles() {
+    func fetchNextItems() {
 
         guard !self.isLoading.value else { return }
 
-        let start = self.currentPage * PublicationListViewModel.articlesPerRequest
+        let start = self.currentPage * PublicationListViewModel.itemsPerRequest
 
-        self.loadArticles(start: start) {
+        self.loadData(start: start) {
             self.currentPage += 1
         }
 
     }
 
-    func select(articleAtIndex: Int) {
+    func select(itemAtIndex: Int) {
 
-        let publication = self._publications.value[articleAtIndex]
+        let publication = self._publications.value[itemAtIndex]
 
         self.delegate?.publicationListViewModel(
             self,
@@ -105,52 +111,54 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
     }
 
     func refreshTriggered() {
-        self.loadArticles()
+        self.loadData()
     }
 
-    private func loadArticles(start: Int? = nil,
-                              success:(() -> Void)? = nil) {
+    private func loadData(start: Int? = nil,
+                          success:(() -> Void)? = nil) {
 
         self._isLoading.accept(true)
 
-        self.apiService.getReports(
+        self.apiService.getPublications(
+            type: self.type,
             start: start,
-            limit: PublicationListViewModel.articlesPerRequest) { [weak self] result in
+            limit: PublicationListViewModel.itemsPerRequest) { [weak self] result in
 
-            guard let self else { return }
+                guard let self else { return }
 
-            var tempPublications = self._publications.value
+                var tempPublications = self._publications.value
 
-            switch result {
+                switch result {
 
-            case .success(let pubs):
+                case .success(let pubs):
 
-                for publication in pubs {
+                    for publication in pubs {
 
-                    if !tempPublications.contains(where: { $0.id == publication.id }) {
-                        tempPublications.append(publication)
+                        if !tempPublications.contains(where: { $0.id == publication.id }) {
+                            tempPublications.append(publication)
+                        }
+
+                        self._publications.accept(tempPublications)
+
+                        success?()
+
                     }
 
-                    self._publications.accept(tempPublications)
+                    self._isLoading.accept(false)
 
-                    success?()
+                case .failure(_):
+
+                    self.delegate?.publicationListViewModel(
+                        self,
+                        apiRequestFailed: "Failed loading \(self.type). Please try again."
+                    )
+
+                    self._isLoading.accept(false)
 
                 }
 
-                self._isLoading.accept(false)
-
-            case .failure(_):
-
-                self.delegate?.publicationListViewModel(
-                    self,
-                    apiRequestFailed: "Failed loading articles. Please try again."
-                )
-
-                self._isLoading.accept(false)
-
             }
 
-        }
 
     }
 
