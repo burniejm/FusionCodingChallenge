@@ -8,88 +8,6 @@
 import XCTest
 @testable import FusionCodingChallenge
 
-class MockApiService: APIServiceProtocol {
-
-    private(set) var getPublicationsWasCalled = false
-    private(set) var getPublicationsStartValue: Int?
-    private(set) var getPublicationsLimitValue: Int?
-    private(set) var getPublicationsCallCount = 0
-
-    private(set) var getPublicationWasCalled = false
-
-    var forceFailure: Bool = false
-
-    func getPublications(type: FusionCodingChallenge.PublicationType,
-                         start: Int?,
-                         limit: Int?,
-                         completion: @escaping (Result<[FusionCodingChallenge.Publication], Error>) -> Void) {
-
-        getPublicationsWasCalled = true
-        getPublicationsStartValue = start
-        getPublicationsLimitValue = limit
-        getPublicationsCallCount += 1
-
-        completion(mockResponse(forceFailure: forceFailure))
-
-    }
-
-    func getPublication(type: FusionCodingChallenge.PublicationType,
-                        id: Int,
-                        completion: @escaping (Result<[FusionCodingChallenge.Publication], Error>) -> Void) {
-
-        getPublicationWasCalled = true
-
-    }
-
-    private func mockResponse(forceFailure: Bool) -> Result<[FusionCodingChallenge.Publication], Error> {
-
-        if forceFailure {
-
-            return .failure(
-
-                NSError(
-                    domain: "FusionAllianceTest",
-                    code: 500,
-                    userInfo: nil
-                )
-
-            )
-
-        }
-
-        return .success([Publication.publication])
-
-    }
-
-}
-
-class MockPublicationListViewModelDelegate: PublicationListViewModelDelegate {
-
-    var apiRequestFailedWasCalled = false
-    var apiRequestFailedWithMessageValue: String?
-
-    var selectedPublicationWasCalled = false
-    var selectedPublicationSelectedPublicationValue: Publication?
-
-    func publicationListViewModel(_ viewModel: FusionCodingChallenge.PublicationListViewModelProtocol,
-                                  apiRequestFailed withMessage: String) {
-
-        apiRequestFailedWasCalled = true
-        apiRequestFailedWithMessageValue = withMessage
-
-    }
-
-    func publicationListViewModel(_ viewModel: FusionCodingChallenge.PublicationListViewModelProtocol,
-                                  selectedPublication: FusionCodingChallenge.Publication) {
-
-        selectedPublicationWasCalled = true
-        selectedPublicationSelectedPublicationValue = selectedPublication
-
-    }
-
-
-}
-
 final class PublicationListViewModelTests: XCTestCase {
 
     var viewModel: PublicationListViewModel!
@@ -97,7 +15,6 @@ final class PublicationListViewModelTests: XCTestCase {
     var mockViewModelDelegate: MockPublicationListViewModelDelegate!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
 
         mockApiService = MockApiService()
         mockViewModelDelegate = MockPublicationListViewModelDelegate()
@@ -106,7 +23,6 @@ final class PublicationListViewModelTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
 
         mockApiService = nil
         mockViewModelDelegate = nil

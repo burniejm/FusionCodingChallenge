@@ -15,7 +15,6 @@
 		EB1BC57C297B40AC00A07032 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB1BC57A297B40AC00A07032 /* Main.storyboard */; };
 		EB1BC57E297B40AD00A07032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB1BC57D297B40AD00A07032 /* Assets.xcassets */; };
 		EB1BC581297B40AD00A07032 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB1BC57F297B40AD00A07032 /* LaunchScreen.storyboard */; };
-		EB1BC58C297B40AE00A07032 /* FusionCodingChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC58B297B40AE00A07032 /* FusionCodingChallengeTests.swift */; };
 		EB1BC596297B40AE00A07032 /* FusionCodingChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC595297B40AE00A07032 /* FusionCodingChallengeUITests.swift */; };
 		EB1BC598297B40AE00A07032 /* FusionCodingChallengeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC597297B40AE00A07032 /* FusionCodingChallengeUITestsLaunchTests.swift */; };
 		EB1BC5A9297B458800A07032 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC5A7297B458800A07032 /* AppCoordinator.swift */; };
@@ -37,6 +36,8 @@
 		EB1BC5D7297C9A1000A07032 /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC5D6297C9A1000A07032 /* NewsDetailViewModel.swift */; };
 		EB1BC5DB297DBA3500A07032 /* PublicationListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1BC5DA297DBA3500A07032 /* PublicationListViewModelTests.swift */; };
 		EBF6AE7B297DEE71009E7BD6 /* Publication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7A297DEE71009E7BD6 /* Publication+Extensions.swift */; };
+		EBF6AE7E297DF54E009E7BD6 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */; };
+		EBF6AE80297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +75,6 @@
 		EB1BC580297B40AD00A07032 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB1BC582297B40AD00A07032 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB1BC587297B40AE00A07032 /* FusionCodingChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FusionCodingChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EB1BC58B297B40AE00A07032 /* FusionCodingChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FusionCodingChallengeTests.swift; sourceTree = "<group>"; };
 		EB1BC591297B40AE00A07032 /* FusionCodingChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FusionCodingChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1BC595297B40AE00A07032 /* FusionCodingChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FusionCodingChallengeUITests.swift; sourceTree = "<group>"; };
 		EB1BC597297B40AE00A07032 /* FusionCodingChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FusionCodingChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -97,6 +97,8 @@
 		EB1BC5D6297C9A1000A07032 /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
 		EB1BC5DA297DBA3500A07032 /* PublicationListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationListViewModelTests.swift; sourceTree = "<group>"; };
 		EBF6AE7A297DEE71009E7BD6 /* Publication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publication+Extensions.swift"; sourceTree = "<group>"; };
+		EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
+		EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPublicationListViewModelDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,18 +177,14 @@
 		EB1BC573297B40AC00A07032 /* FusionCodingChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5C8297C510E00A07032 /* Helper */,
-				EB1BC5BE297B95F800A07032 /* Services */,
-				EB1BC5B5297B936F00A07032 /* Models */,
-				EB1BC5AD297B461200A07032 /* Extensions */,
-				EB1BC5A6297B456500A07032 /* Coordination */,
-				EB1BC5A4297B418000A07032 /* Coordinators */,
 				EB1BC574297B40AC00A07032 /* AppDelegate.swift */,
 				EB1BC576297B40AC00A07032 /* SceneDelegate.swift */,
-				EB1BC57A297B40AC00A07032 /* Main.storyboard */,
-				EB1BC57D297B40AD00A07032 /* Assets.xcassets */,
-				EB1BC57F297B40AD00A07032 /* LaunchScreen.storyboard */,
-				EB1BC582297B40AD00A07032 /* Info.plist */,
+				EB1BC5A6297B456500A07032 /* Coordination */,
+				EB1BC5A4297B418000A07032 /* Coordinators */,
+				EB1BC5AD297B461200A07032 /* Extensions */,
+				EB1BC5B5297B936F00A07032 /* Models */,
+				EBF6AE81297DF821009E7BD6 /* Resources */,
+				EB1BC5BE297B95F800A07032 /* Services */,
 			);
 			path = FusionCodingChallenge;
 			sourceTree = "<group>";
@@ -194,9 +192,9 @@
 		EB1BC58A297B40AE00A07032 /* FusionCodingChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				EBF6AE79297DEE5E009E7BD6 /* Helper */,
-				EB1BC58B297B40AE00A07032 /* FusionCodingChallengeTests.swift */,
 				EB1BC5DA297DBA3500A07032 /* PublicationListViewModelTests.swift */,
+				EBF6AE79297DEE5E009E7BD6 /* Extensions */,
+				EBF6AE7C297DF53B009E7BD6 /* Mocks */,
 			);
 			path = FusionCodingChallengeTests;
 			sourceTree = "<group>";
@@ -213,6 +211,7 @@
 		EB1BC5A4297B418000A07032 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				EB1BC5A7297B458800A07032 /* AppCoordinator.swift */,
 				EB1BC5A5297B418600A07032 /* Main */,
 			);
 			path = Coordinators;
@@ -221,8 +220,8 @@
 		EB1BC5A5297B418600A07032 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5C1297C432D00A07032 /* News */,
 				EB1BC5AB297B45B900A07032 /* MainCoordinator.swift */,
+				EB1BC5C1297C432D00A07032 /* News */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -230,7 +229,6 @@
 		EB1BC5A6297B456500A07032 /* Coordination */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5A7297B458800A07032 /* AppCoordinator.swift */,
 				EB1BC5A8297B458800A07032 /* Coordinator.swift */,
 			);
 			path = Coordination;
@@ -239,8 +237,8 @@
 		EB1BC5AD297B461200A07032 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5AE297B461B00A07032 /* UIStoryboard+Extensions.swift */,
 				EB1BC5CD297C554800A07032 /* ObservableType+Extensions.swift */,
+				EB1BC5AE297B461B00A07032 /* UIStoryboard+Extensions.swift */,
 				EB1BC5CF297C570F00A07032 /* UITableView+Extensions.swift */,
 			);
 			path = Extensions;
@@ -249,9 +247,9 @@
 		EB1BC5B5297B936F00A07032 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5B6297B93B400A07032 /* Publication.swift */,
 				EB1BC5B8297B94DD00A07032 /* Event.swift */,
 				EB1BC5BA297B950200A07032 /* Launch.swift */,
+				EB1BC5B6297B93B400A07032 /* Publication.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -259,8 +257,8 @@
 		EB1BC5BE297B95F800A07032 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5D1297C85ED00A07032 /* API */,
 				EB1BC5CB297C515800A07032 /* DateTimeService.swift */,
+				EB1BC5D1297C85ED00A07032 /* API */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -274,18 +272,11 @@
 			path = News;
 			sourceTree = "<group>";
 		};
-		EB1BC5C8297C510E00A07032 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
 		EB1BC5D1297C85ED00A07032 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				EB1BC5BF297B970200A07032 /* APIService.swift */,
 				EB1BC5D2297C862900A07032 /* AFDecodableResponseSerializer.swift */,
+				EB1BC5BF297B970200A07032 /* APIService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -309,12 +300,32 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		EBF6AE79297DEE5E009E7BD6 /* Helper */ = {
+		EBF6AE79297DEE5E009E7BD6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				EBF6AE7A297DEE71009E7BD6 /* Publication+Extensions.swift */,
 			);
-			path = Helper;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		EBF6AE7C297DF53B009E7BD6 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */,
+				EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		EBF6AE81297DF821009E7BD6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EB1BC57D297B40AD00A07032 /* Assets.xcassets */,
+				EB1BC582297B40AD00A07032 /* Info.plist */,
+				EB1BC57F297B40AD00A07032 /* LaunchScreen.storyboard */,
+				EB1BC57A297B40AC00A07032 /* Main.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,8 +593,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBF6AE80297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift in Sources */,
+				EBF6AE7E297DF54E009E7BD6 /* MockAPIService.swift in Sources */,
 				EBF6AE7B297DEE71009E7BD6 /* Publication+Extensions.swift in Sources */,
-				EB1BC58C297B40AE00A07032 /* FusionCodingChallengeTests.swift in Sources */,
 				EB1BC5DB297DBA3500A07032 /* PublicationListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -756,7 +768,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z42862QX7H;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = FusionCodingChallenge/Info.plist;
+				INFOPLIST_FILE = FusionCodingChallenge/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -786,7 +798,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z42862QX7H;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = FusionCodingChallenge/Info.plist;
+				INFOPLIST_FILE = FusionCodingChallenge/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

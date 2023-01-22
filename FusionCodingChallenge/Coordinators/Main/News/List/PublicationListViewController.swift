@@ -139,7 +139,6 @@ extension PublicationListViewController: UITableViewDelegate, UITableViewDataSou
         return self.viewModel.publications.value.count
     }
 
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: PublicationTableViewCell = tableView.dequeue(

@@ -20,7 +20,7 @@ protocol APIServiceProtocol {
     func getPublication(
         type: PublicationType,
         id: Int,
-        completion: @escaping (Result<[Publication], Error>) -> Void
+        completion: @escaping (Result<Publication, Error>) -> Void
     )
 
 }
@@ -119,7 +119,23 @@ class APIService: APIServiceProtocol {
 
     func getPublication(type: PublicationType,
                         id: Int,
-                        completion: @escaping (Result<[Publication], Error>) -> Void) {
+                        completion: @escaping (Result<Publication, Error>) -> Void) {
+
+        AF.request(
+            type.url(baseUrl: self.baseURLString, id: id)
+        )
+        .validate()
+        .customResponseDecodable(
+            of: Publication.self) { response in
+                switch response {
+
+                case .success(let item):
+                    completion(.success(item))
+
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
 
     }
 
