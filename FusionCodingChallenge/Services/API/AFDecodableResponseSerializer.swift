@@ -89,7 +89,7 @@ final class CustomResponseSerializer<T: Decodable>: ResponseSerializer {
 
 extension DataRequest {
 
-    @discardableResult func responseTwoDecodable<T: Decodable>(
+    @discardableResult func customResponseDecodable<T: Decodable>(
         queue: DispatchQueue = DispatchQueue.global(qos: .userInitiated),
         of t: T.Type,
         completionHandler: @escaping (Result<T, APIError>) -> Void) -> Self {

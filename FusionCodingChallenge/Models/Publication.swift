@@ -17,7 +17,6 @@ struct Publication: Codable, Comparable {
         lhs.id == rhs.id
     }
 
-
     let id: Int
     let title: String
     let url: String

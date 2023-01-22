@@ -25,11 +25,11 @@ protocol APIServiceProtocol {
 
 }
 
-enum PublicationType {
+enum PublicationType: String {
 
-    case articles
-    case blogs
-    case reports
+    case articles = "Space News"
+    case blogs = "Space Blogs"
+    case reports = "Space Reports"
 
     private func path(id: Int? = nil) -> String {
 
@@ -103,7 +103,7 @@ class APIService: APIServiceProtocol {
             parameters: requestParams
         )
         .validate()
-        .responseTwoDecodable(
+        .customResponseDecodable(
             of: [Publication].self) { response in
                 switch response {
 

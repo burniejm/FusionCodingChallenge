@@ -21,6 +21,7 @@ protocol PublicationListViewModelProtocol {
     var title: Observable<String> { get }
     var publications: Observable<[Publication]> { get }
     var isLoading: Observable<Bool> { get }
+    var itemsPerRequest: Int { get }
     var infiniteScrollThreshold: Int { get }
 
     init(apiService: APIServiceProtocol)
@@ -33,15 +34,15 @@ protocol PublicationListViewModelProtocol {
 
 class PublicationListViewModel: PublicationListViewModelProtocol {
 
-    static let itemsPerRequest = 20
+    static let _itemsPerRequest = 20
     static let _infiniteScrollThreshold = 2
 
     private weak var delegate: PublicationListViewModelDelegate?
 
     private let apiService: APIServiceProtocol
-    private(set) var type: PublicationType = .articles
+    private(set) var type: PublicationType?
 
-    private var currentPage = 1
+    private(set) var currentPage = 1
 
     private var _publications = BehaviorRelay<[Publication]>(value: [])
     var publications: Observable<[Publication]> {
@@ -53,13 +54,13 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
         return _isLoading.asObservable()
     }
 
-    private var _sortDesc = BehaviorRelay<Bool>(value: true)
-    var sortDesc: Observable<Bool> {
-        return _sortDesc.asObservable()
+    private var _title = BehaviorRelay<String>(value: "")
+    var title: Observable<String> {
+        return _title.asObservable()
     }
 
-    var title: Observable<String> {
-        Observable.just("Space News")
+    var itemsPerRequest: Int {
+        Self._itemsPerRequest
     }
 
     var infiniteScrollThreshold: Int {
@@ -77,21 +78,23 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
         self.type = type
         self.delegate = delegate
 
+        self._title.accept(type.rawValue)
+
         loadData()
 
         return self
 
     }
 
-    func set(sortDesc: Bool) {
-        self._sortDesc.accept(sortDesc)
+    func refreshTriggered() {
+        self.loadData()
     }
 
     func fetchNextItems() {
 
         guard !self.isLoading.value else { return }
 
-        let start = self.currentPage * PublicationListViewModel.itemsPerRequest
+        let start = self.currentPage * self.itemsPerRequest
 
         self.loadData(start: start) {
             self.currentPage += 1
@@ -100,6 +103,8 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
     }
 
     func select(itemAtIndex: Int) {
+
+        guard self.publications.value.indices.contains(itemAtIndex) else { return }
 
         let publication = self._publications.value[itemAtIndex]
 
@@ -110,19 +115,15 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
 
     }
 
-    func refreshTriggered() {
-        self.loadData()
-    }
-
     private func loadData(start: Int? = nil,
                           success:(() -> Void)? = nil) {
 
         self._isLoading.accept(true)
 
         self.apiService.getPublications(
-            type: self.type,
+            type: self.type ?? .articles,
             start: start,
-            limit: PublicationListViewModel.itemsPerRequest) { [weak self] result in
+            limit: self.itemsPerRequest) { [weak self] result in
 
                 guard let self else { return }
 
@@ -140,17 +141,16 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
 
                         self._publications.accept(tempPublications)
 
-                        success?()
-
                     }
 
+                    success?()
                     self._isLoading.accept(false)
 
                 case .failure(_):
 
                     self.delegate?.publicationListViewModel(
                         self,
-                        apiRequestFailed: "Failed loading \(self.type). Please try again."
+                        apiRequestFailed: "Failed loading \(self.type ?? .articles). Please try again."
                     )
 
                     self._isLoading.accept(false)
@@ -158,7 +158,6 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
                 }
 
             }
-
 
     }
 
