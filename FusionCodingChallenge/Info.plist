@@ -21,5 +21,9 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Take pictures to grab individual colors from your environment!</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Use existing photos to grab individual colors from your awesome photo library!</string>
 </dict>
 </plist>
