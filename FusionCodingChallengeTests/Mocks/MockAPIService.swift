@@ -29,19 +29,19 @@ class MockApiService: APIServiceProtocol {
         getPublicationsLimitValue = limit
         getPublicationsCallCount += 1
 
-        completion(mockResponse(forceFailure: forceFailure))
+        completion(mockPublicationsResponse(forceFailure: forceFailure))
 
     }
 
     func getPublication(type: FusionCodingChallenge.PublicationType,
                         id: Int,
-                        completion: @escaping (Result<[FusionCodingChallenge.Publication], Error>) -> Void) {
+                        completion: @escaping (Result<FusionCodingChallenge.Publication, Error>) -> Void) {
 
         getPublicationWasCalled = true
 
     }
 
-    private func mockResponse(forceFailure: Bool) -> Result<[FusionCodingChallenge.Publication], Error> {
+    private func mockPublicationsResponse(forceFailure: Bool) -> Result<[FusionCodingChallenge.Publication], Error> {
 
         if forceFailure {
 
