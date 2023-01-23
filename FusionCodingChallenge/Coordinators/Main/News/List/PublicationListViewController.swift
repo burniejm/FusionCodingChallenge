@@ -52,8 +52,7 @@ class PublicationListViewController: UIViewController {
         self.tableView = UITableView()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.rowHeight = UITableView.automaticDimension;
-        self.tableView.estimatedRowHeight = 80.0
+        self.tableView.rowHeight = PublicationTableViewCell.rowHeight
 
         self.tableView.refreshControl = UIRefreshControl()
         self.tableView.refreshControl?.addTarget(
@@ -145,11 +144,14 @@ extension PublicationListViewController: UITableViewDelegate, UITableViewDataSou
             cellForRowAt: indexPath
         )
 
-        let article = self.viewModel.publications.value[indexPath.row]
+        let publication = self.viewModel.publications.value[indexPath.row]
+        let cellVM = PublicationTableViewCellViewModel()
+            .setup(publication: publication,
+                   dateTimeService: self.dateTimeService
+            )
 
         return cell.setup(
-            publication: article,
-            dateTimeService: self.dateTimeService
+            viewModel: cellVM
         )
 
     }

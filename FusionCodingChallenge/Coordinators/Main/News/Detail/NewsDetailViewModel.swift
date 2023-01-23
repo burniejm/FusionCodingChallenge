@@ -10,19 +10,32 @@ import RxSwift
 import RxCocoa
 
 protocol NewsDetailViewModelProtocol {
-    var publication: Observable<Publication?> { get }
+
+    var title: Observable<String?> { get }
+    var url: Observable<String?> { get }
+    
 }
 
 class NewsDetailViewModel: NewsDetailViewModelProtocol {
 
-    private var _publication = BehaviorRelay<Publication?>(value: nil)
-    var publication: Observable<Publication?> {
-        return _publication.asObservable()
+    private var publication = BehaviorRelay<Publication?>(value: nil)
+
+    private var _title = BehaviorRelay<String?>(value: nil)
+    var title: Observable<String?> {
+        return _title.asObservable()
+    }
+
+    private var _url = BehaviorRelay<String?>(value: nil)
+    var url: Observable<String?> {
+        return _url.asObservable()
     }
 
     func setup(publication: Publication) -> Self {
 
-        self._publication.accept(publication)
+        self.publication.accept(publication)
+
+        self._title.accept(publication.newsSite)
+        self._url.accept(publication.url)
 
         return self
 

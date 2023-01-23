@@ -75,20 +75,25 @@ class NewsDetailViewController: UIViewController {
 
     func setupBindings() {
 
-        self.viewModel.publication
-            .bind { [weak self] _ in
-                self?.loadPublication()
-        }
+        self.viewModel.title
+            .bind{ [weak self] in
+                self?.title = $0
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.url
+            .bind{ [weak self] in
+                self?.loadUrl($0)
+            }
+            .disposed(by: self.disposeBag)
 
     }
 
-    private func loadPublication() {
+    private func loadUrl(_ urlString: String?) {
 
-        guard let publication = self.viewModel.publication.value else { return }
+        guard let urlString else { return }
 
-        self.title = publication.newsSite
-
-        if let url = URL(string:publication.url) {
+        if let url = URL(string:urlString) {
 
             self.setLoadingVisible(true)
 

@@ -46,17 +46,17 @@ class PublicationListViewModel: PublicationListViewModelProtocol {
 
     private var _publications = BehaviorRelay<[Publication]>(value: [])
     var publications: Observable<[Publication]> {
-        return _publications.asObservable()
+        return self._publications.asObservable()
     }
 
     private var _isLoading = BehaviorRelay<Bool>(value: false)
     var isLoading: Observable<Bool> {
-        return _isLoading.asObservable()
+        return self._isLoading.asObservable()
     }
 
     private var _title = BehaviorRelay<String>(value: "")
     var title: Observable<String> {
-        return _title.asObservable()
+        return self._title.asObservable()
     }
 
     var itemsPerRequest: Int {

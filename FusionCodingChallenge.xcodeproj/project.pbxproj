@@ -38,6 +38,7 @@
 		EBF6AE7B297DEE71009E7BD6 /* Publication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7A297DEE71009E7BD6 /* Publication+Extensions.swift */; };
 		EBF6AE7E297DF54E009E7BD6 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */; };
 		EBF6AE80297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */; };
+		EBF6AE83297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE82297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		EBF6AE7A297DEE71009E7BD6 /* Publication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publication+Extensions.swift"; sourceTree = "<group>"; };
 		EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
 		EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPublicationListViewModelDelegate.swift; sourceTree = "<group>"; };
+		EBF6AE82297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationTableViewCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +289,7 @@
 				EB1BC5C2297C433E00A07032 /* PublicationListViewController.swift */,
 				EB1BC5C4297C434600A07032 /* PublicationListViewModel.swift */,
 				EB1BC5C6297C499C00A07032 /* PublicationTableViewCell.swift */,
+				EBF6AE82297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				EB1BC5A9297B458800A07032 /* AppCoordinator.swift in Sources */,
 				EB1BC5CC297C515800A07032 /* DateTimeService.swift in Sources */,
 				EB1BC5AC297B45B900A07032 /* MainCoordinator.swift in Sources */,
+				EBF6AE83297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift in Sources */,
 				EB1BC5C7297C499C00A07032 /* PublicationTableViewCell.swift in Sources */,
 				EB1BC5B7297B93B400A07032 /* Publication.swift in Sources */,
 				EB1BC5BB297B950200A07032 /* Launch.swift in Sources */,

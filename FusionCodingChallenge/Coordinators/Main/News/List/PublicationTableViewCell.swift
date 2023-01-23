@@ -8,18 +8,35 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
-class PublicationTableViewCell: UITableViewCell {
+protocol PublicationTableViewCellProtocol {
 
-    private var lblTitle: UILabel!
-    private var lblDate: UILabel!
-    private var imgView: UIImageView!
+    var lblTitle: UILabel! { get }
+    var lblDate: UILabel! { get }
+    var imgView: UIImageView! { get }
+
+}
+
+class PublicationTableViewCell: UITableViewCell, PublicationTableViewCellProtocol {
+
+    private(set) var lblTitle: UILabel!
+    private(set) var lblDate: UILabel!
+    private(set) var imgView: UIImageView!
 
     static let reuseIdentifier = "PublicationTableViewCell"
+    static let rowHeight = 66.0
+
+    private var viewModel: PublicationTableViewCellViewModel!
+    private var dateTimeService: DateTimeServiceProtocol!
+
+    private var disposeBag: DisposeBag!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         setupSubviews()
 
     }
@@ -27,6 +44,7 @@ class PublicationTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
 
         super.init(coder: coder)
+        
         setupSubviews()
 
     }
@@ -39,29 +57,16 @@ class PublicationTableViewCell: UITableViewCell {
         self.lblTitle.text = nil
         self.lblDate.text = nil
 
+        self.disposeBag = nil
+
     }
 
     @discardableResult
-    func setup(publication: Publication?,
-               dateTimeService: DateTimeServiceProtocol) -> Self {
+    func setup(viewModel: PublicationTableViewCellViewModel) -> Self {
 
-        guard let publication else { return self }
-
-        DispatchQueue.main.async {
-
-            let imgUrl = URL(string: publication.imageUrl)
-            self.imgView.kf.setImage(with: imgUrl)
-
-        }
-
-        self.lblTitle.text = publication.title
-
-        let dateString = dateTimeService
-            .formattedDateString(
-                date: publication.publishedAt,
-                format: .longMonthDateYear
-            )
-        self.lblDate.text = dateString
+        self.viewModel = viewModel
+        self.dateTimeService = dateTimeService
+        setupBindings()
 
         return self
 
@@ -77,7 +82,6 @@ class PublicationTableViewCell: UITableViewCell {
             make.top.left.equalToSuperview().offset(8.0)
             make.bottom.equalToSuperview().offset(-8.0)
             make.width.equalTo(75.0)
-            make.height.equalTo(50.0)
         }
 
         self.lblTitle = UILabel()
@@ -99,6 +103,37 @@ class PublicationTableViewCell: UITableViewCell {
             make.right.equalToSuperview().inset(8.0)
             make.bottom.equalToSuperview().inset(8.0)
         }
+
+    }
+
+    private func setupBindings() {
+
+        self.disposeBag = DisposeBag()
+
+        self.viewModel.title
+            .bind{ [weak self] in
+                self?.lblTitle.text = $0
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.date
+            .bind{ [weak self] in
+                self?.lblDate.text = $0
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.imgUrl
+            .bind{ [weak self] in
+
+                if let urlString = $0 {
+
+                    let imgUrl = URL(string: urlString)
+                    self?.imgView.kf.setImage(with: imgUrl)
+
+                }
+
+            }
+            .disposed(by: self.disposeBag)
 
     }
 
