@@ -36,6 +36,7 @@ class PublicationTableViewCellViewModel {
         return self._imgUrl.asObservable()
     }
 
+    @discardableResult
     func setup(publication: Publication,
                dateTimeService: DateTimeServiceProtocol) -> Self {
 

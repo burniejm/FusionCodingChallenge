@@ -39,6 +39,8 @@
 		EBF6AE7E297DF54E009E7BD6 /* MockAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */; };
 		EBF6AE80297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */; };
 		EBF6AE83297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE82297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift */; };
+		EBF6AE85297E4E61009E7BD6 /* PublicationTableViewCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE84297E4E61009E7BD6 /* PublicationTableViewCellViewModelTests.swift */; };
+		EBF6AE87297E545E009E7BD6 /* MockDateTimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF6AE86297E545E009E7BD6 /* MockDateTimeService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,8 @@
 		EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
 		EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPublicationListViewModelDelegate.swift; sourceTree = "<group>"; };
 		EBF6AE82297DFC8C009E7BD6 /* PublicationTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		EBF6AE84297E4E61009E7BD6 /* PublicationTableViewCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationTableViewCellViewModelTests.swift; sourceTree = "<group>"; };
+		EBF6AE86297E545E009E7BD6 /* MockDateTimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDateTimeService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +198,7 @@
 		EB1BC58A297B40AE00A07032 /* FusionCodingChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
+				EBF6AE84297E4E61009E7BD6 /* PublicationTableViewCellViewModelTests.swift */,
 				EB1BC5DA297DBA3500A07032 /* PublicationListViewModelTests.swift */,
 				EBF6AE79297DEE5E009E7BD6 /* Extensions */,
 				EBF6AE7C297DF53B009E7BD6 /* Mocks */,
@@ -316,6 +321,7 @@
 			children = (
 				EBF6AE7D297DF54E009E7BD6 /* MockAPIService.swift */,
 				EBF6AE7F297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift */,
+				EBF6AE86297E545E009E7BD6 /* MockDateTimeService.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -597,7 +603,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBF6AE85297E4E61009E7BD6 /* PublicationTableViewCellViewModelTests.swift in Sources */,
 				EBF6AE80297DF57A009E7BD6 /* MockPublicationListViewModelDelegate.swift in Sources */,
+				EBF6AE87297E545E009E7BD6 /* MockDateTimeService.swift in Sources */,
 				EBF6AE7E297DF54E009E7BD6 /* MockAPIService.swift in Sources */,
 				EBF6AE7B297DEE71009E7BD6 /* Publication+Extensions.swift in Sources */,
 				EB1BC5DB297DBA3500A07032 /* PublicationListViewModelTests.swift in Sources */,

@@ -16,94 +16,126 @@ final class PublicationListViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
 
-        mockApiService = MockApiService()
-        mockViewModelDelegate = MockPublicationListViewModelDelegate()
-        viewModel = PublicationListViewModel(apiService: mockApiService)
+        self.mockApiService = MockApiService()
+        self.mockViewModelDelegate = MockPublicationListViewModelDelegate()
+        self.viewModel = PublicationListViewModel(apiService: mockApiService)
 
     }
 
     override func tearDownWithError() throws {
 
-        mockApiService = nil
-        mockViewModelDelegate = nil
-        viewModel = nil
+        self.mockApiService = nil
+        self.mockViewModelDelegate = nil
+        self.viewModel = nil
 
     }
 
     func testInit() {
 
-        XCTAssertEqual(viewModel.publications.value.count, 0)
-        XCTAssertFalse(viewModel.isLoading.value)
-        XCTAssertEqual(viewModel.title.value, "")
+        XCTAssertEqual(self.viewModel.publications.value.count, 0)
+        XCTAssertFalse(self.viewModel.isLoading.value)
+        XCTAssertEqual(self.viewModel.title.value, "")
 
     }
 
     func testTypeSetOnSetup() {
 
-        viewModel.setup(type: .articles, delegate: nil)
-        XCTAssertEqual(viewModel.type, .articles)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: nil
+        )
+
+        XCTAssertEqual(self.viewModel.type, .articles)
 
     }
 
     func testTitleSetOnSetup() {
 
-        viewModel.setup(type: .articles, delegate: nil)
-        XCTAssertEqual(viewModel.title.value, PublicationType.articles.rawValue)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: nil
+        )
+
+        XCTAssertEqual(self.viewModel.title.value, PublicationType.articles.rawValue)
 
     }
 
     func testLoadDataCalledOnSetup() {
 
-        viewModel.setup(type: .articles, delegate: nil)
-        XCTAssertTrue(mockApiService.getPublicationsWasCalled)
-        XCTAssertNil(mockApiService.getPublicationsStartValue)
-        XCTAssertEqual(mockApiService.getPublicationsLimitValue, viewModel.itemsPerRequest)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: nil
+        )
+
+        XCTAssertTrue(self.mockApiService.getPublicationsWasCalled)
+        XCTAssertNil(self.mockApiService.getPublicationsStartValue)
+        XCTAssertEqual(self.mockApiService.getPublicationsLimitValue, self.viewModel.itemsPerRequest)
 
     }
 
     func testApiRequestFailedDelegate() {
 
-        mockApiService.forceFailure = true
-        viewModel.setup(type: .articles, delegate: mockViewModelDelegate)
-        XCTAssertTrue(mockViewModelDelegate.apiRequestFailedWasCalled)
+        self.mockApiService.forceFailure = true
+        self.viewModel.setup(
+            type: .articles,
+            delegate: self.mockViewModelDelegate
+        )
+
+        XCTAssertTrue(self.mockViewModelDelegate.apiRequestFailedWasCalled)
 
     }
 
     func testRefresh() {
 
-        viewModel.setup(type: .articles, delegate: mockViewModelDelegate)
-        XCTAssertEqual(mockApiService.getPublicationsCallCount, 1)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: self.mockViewModelDelegate
+        )
 
-        viewModel.refreshTriggered()
-        XCTAssertEqual(mockApiService.getPublicationsCallCount, 2)
+        XCTAssertEqual(self.mockApiService.getPublicationsCallCount, 1)
+
+        self.viewModel.refreshTriggered()
+
+        XCTAssertEqual(self.mockApiService.getPublicationsCallCount, 2)
 
     }
 
     func testFetchNextItems() {
 
-        viewModel.setup(type: .articles, delegate: mockViewModelDelegate)
-        XCTAssertNil(mockApiService.getPublicationsStartValue)
-        XCTAssertEqual(mockApiService.getPublicationsLimitValue, viewModel.itemsPerRequest)
-        XCTAssertEqual(mockApiService.getPublicationsCallCount, 1)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: self.mockViewModelDelegate
+        )
 
-        viewModel.fetchNextItems()
-        XCTAssertEqual(mockApiService.getPublicationsStartValue, viewModel.itemsPerRequest)
-        XCTAssertEqual(mockApiService.getPublicationsLimitValue, viewModel.itemsPerRequest)
-        XCTAssertEqual(mockApiService.getPublicationsCallCount, 2)
+        XCTAssertNil(self.mockApiService.getPublicationsStartValue)
+        XCTAssertEqual(self.mockApiService.getPublicationsLimitValue, self.viewModel.itemsPerRequest)
+        XCTAssertEqual(self.mockApiService.getPublicationsCallCount, 1)
 
-        viewModel.fetchNextItems()
-        XCTAssertEqual(mockApiService.getPublicationsStartValue, 2 * viewModel.itemsPerRequest)
-        XCTAssertEqual(mockApiService.getPublicationsLimitValue, viewModel.itemsPerRequest)
-        XCTAssertEqual(mockApiService.getPublicationsCallCount, 3)
+        self.viewModel.fetchNextItems()
+
+        XCTAssertEqual(self.mockApiService.getPublicationsStartValue, self.viewModel.itemsPerRequest)
+        XCTAssertEqual(self.mockApiService.getPublicationsLimitValue, self.viewModel.itemsPerRequest)
+        XCTAssertEqual(self.mockApiService.getPublicationsCallCount, 2)
+
+        self.viewModel.fetchNextItems()
+
+        XCTAssertEqual(self.mockApiService.getPublicationsStartValue, 2 * self.viewModel.itemsPerRequest)
+        XCTAssertEqual(self.mockApiService.getPublicationsLimitValue, self.viewModel.itemsPerRequest)
+        XCTAssertEqual(self.mockApiService.getPublicationsCallCount, 3)
 
     }
 
     func testSelect() {
 
-        viewModel.setup(type: .articles, delegate: mockViewModelDelegate)
-        viewModel.select(itemAtIndex: 0)
-        XCTAssertTrue(mockViewModelDelegate.selectedPublicationWasCalled)
-        XCTAssertEqual(viewModel.publications.value[0], mockViewModelDelegate.selectedPublicationSelectedPublicationValue)
+        self.viewModel.setup(
+            type: .articles,
+            delegate: self.mockViewModelDelegate
+        )
+
+        self.viewModel.select(itemAtIndex: 0)
+
+        XCTAssertTrue(self.mockViewModelDelegate.selectedPublicationWasCalled)
+        XCTAssertEqual(self.viewModel.publications.value[0], self.mockViewModelDelegate.selectedPublicationSelectedPublicationValue)
 
     }
 

@@ -24,12 +24,12 @@ class MockApiService: APIServiceProtocol {
                          limit: Int?,
                          completion: @escaping (Result<[FusionCodingChallenge.Publication], Error>) -> Void) {
 
-        getPublicationsWasCalled = true
-        getPublicationsStartValue = start
-        getPublicationsLimitValue = limit
-        getPublicationsCallCount += 1
+        self.getPublicationsWasCalled = true
+        self.getPublicationsStartValue = start
+        self.getPublicationsLimitValue = limit
+        self.getPublicationsCallCount += 1
 
-        completion(mockPublicationsResponse(forceFailure: forceFailure))
+        completion(mockPublicationsResponse(forceFailure: self.forceFailure))
 
     }
 
@@ -37,7 +37,7 @@ class MockApiService: APIServiceProtocol {
                         id: Int,
                         completion: @escaping (Result<FusionCodingChallenge.Publication, Error>) -> Void) {
 
-        getPublicationWasCalled = true
+        self.getPublicationWasCalled = true
 
     }
 
